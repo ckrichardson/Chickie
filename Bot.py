@@ -18,17 +18,19 @@ import text
 import time
 import wikipedia
 
+# Setting the embed characteristics here
 color = 0xC0C0C0
 avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f4fa72437d9e516ef.png"
 embed = discord.Embed(color=color)
 embed.set_thumbnail(url=avatar)
 
+# Prefix used for the bot
 prefix = '>'
-
 bot = commands.Bot(command_prefix=prefix)
+
+# Different caches for things such as sam hyde images and game sessions
 global_image_pointer_cache = dict()
 covid_cache = ["date", 0]
-
 available_games = ["ttt"]
 ttt_board = [['.','.','.'],['.','.','.'],['.','.','.']]
 words = list()
@@ -39,16 +41,20 @@ hangman_states = {0: text.hangman_0, 1: text.hangman_1, 2: text.hangman_2, 3: te
 challenge_cache = dict()
 game_boards = dict(); game_boards["ttt"] = ttt_board
 
+# Load quotes
 quotes = ""
 with open(os.getcwd()+"/quotes.json", "r") as quotes_file:
     quotes = json.loads(quotes_file.read())
 
+# Load blacklist
 blacklist = None
 with open(os.getcwd()+"/blacklist.txt", "r") as bl:
     blacklist = [int(x) for x in bl]
 
 owm_api_key = os.environ["OWMAPIKEY"]
 
+
+# Things to run once the bot successfully authenticates
 @bot.event
 async def on_ready():
     print("Bot online")
@@ -56,6 +62,8 @@ async def on_ready():
     await bot.change_presence(activity=game)
 
 
+# Things to run when a member joins the server
+# Currently sends them a welcome message
 @bot.event
 async def on_member_join(member):
     if member.id in blacklist:
@@ -66,6 +74,8 @@ async def on_member_join(member):
     await member.send(embed=embed)
 
 
+# An attempt trying to configure things upon the bot joining
+# Haven't figured everything out, probably requires admin upon joining or something
 @bot.event
 async def on_guild_join(ctx):
     roles = [x.name for x in ctx.roles]
@@ -78,6 +88,8 @@ async def on_guild_join(ctx):
         await channel.set_permissions(muted, send_messages=False, read_messages=True)
 
 
+# Changes the role of the user
+# Definitely needs organizational/functional changes
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def role(ctx, role=None):
@@ -163,6 +175,7 @@ async def role(ctx, role=None):
     await member.remove_roles(*remove_roles)
 
 
+# Kicks a user from the server
 @commands.guild_only()
 @commands.has_any_role("Owner", "Mod")
 @bot.command(pass_context=True)
@@ -192,6 +205,7 @@ async def kick(ctx, member: discord.Member=None, *, reason=None):
         await member.kick(reason=reason)
 
 
+# Bans a user from the server
 @commands.guild_only()
 @commands.has_any_role("Owner", "Mod")
 @bot.command(pass_context=True)
@@ -222,7 +236,7 @@ async def ban(ctx, member: discord.Member=None, *, reason=None):
         await member.send(embed=embed)
         await member.ban(reason=reason)
 
-
+# Mutes a user
 @commands.guild_only()
 @commands.has_any_role("Owner", "Mod")
 @bot.command(pass_context=True)
@@ -251,6 +265,7 @@ async def mute(ctx, user: discord.Member=None, duration: int=0, *, reason=None):
     await user.remove_roles(muted)
 
 
+# Deletes the last 'x' number of messages
 @commands.guild_only()
 @commands.has_any_role("Mod","Owner")
 @bot.command(pass_context=True)
@@ -268,6 +283,7 @@ async def purge(ctx, number: int=0):
         return
 
 
+# sends a sam hyde meme
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def samhyde(ctx):
@@ -290,6 +306,8 @@ async def samhyde(ctx):
         return
 
 
+# Get the weather of a location
+# I think the search function is broken 
 @commands.guild_only()
 @bot.command()
 async def weather(ctx, *location):
@@ -357,6 +375,7 @@ async def weather(ctx, *location):
     await ctx.send(embed=embed)
 
 
+# Retrieve AQI of reno
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def aqi(ctx):
@@ -364,6 +383,8 @@ async def aqi(ctx):
     embed.description = await helpers.get_aqi()
     await ctx.send(embed=embed)
 
+
+# Search wikipedia for something and return the first 3 sentences, and maybe an image
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def wiki(ctx, *search):
@@ -429,6 +450,7 @@ async def wiki(ctx, *search):
     await ctx.send(embed=embed_a)
 
 
+# Get covid stats from the coronavirus dashboard of UNR
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def covid(ctx):
@@ -450,6 +472,7 @@ async def covid(ctx):
     await ctx.send(embed=embed)
 
 
+# Changes the status of the bot
 @commands.guild_only()
 @commands.has_any_role("Owner", "Mod")
 @bot.command(pass_context=True)
@@ -462,6 +485,7 @@ async def status(ctx,*,game=None):
     await bot.change_presence(activity=game)
 
 
+# Say hello to the bot
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def hello(ctx):
@@ -469,6 +493,8 @@ async def hello(ctx):
     await asyncio.sleep(1)
     await ctx.send("Hi <@{0}> :baby_chick:".format(ctx.author.id))
 
+
+# Tic Tac Toe against the one and only TicTacToe grandmaster
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def ttt(ctx, x: int = -1, y: int = -1):
@@ -539,6 +565,7 @@ async def ttt(ctx, x: int = -1, y: int = -1):
         await ctx.send(embed=embed)
 
 
+# Hangman
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def hm(ctx, letter=None):
@@ -629,6 +656,7 @@ async def hm(ctx, letter=None):
         await ctx.send(embed=embed)
 
 
+# Sends you a motivational quote
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def quote(ctx):
@@ -638,6 +666,7 @@ async def quote(ctx):
     await ctx.send(embed=embed)
 
 
+# Find out your pp size
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def pp(ctx):
@@ -683,10 +712,5 @@ async def insult(ctx, target: discord.Member=None):
 #        challenge_cache[game_key][1] = True 
         
         
-    
-
-
-            
-        
-
+   
 bot.run(os.environ["UNRBOTKEY"])
