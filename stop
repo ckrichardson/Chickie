@@ -1,0 +1,5 @@
+#!/bin/bash
+
+IDS=$(ps -awx | grep "Bot.py" | awk '{print $1}')
+kill $IDS
+echo "Bot successfully stopped"

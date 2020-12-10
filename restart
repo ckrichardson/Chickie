@@ -1,0 +1,9 @@
+#!/bin/bash
+
+bot_id=$(ps -awx | grep "python3 Bot.py" | awk '{print $1}')
+kill $bot_id
+echo "Killed processes successfully, restarting..."
+./run
+echo "Bot successfully restarted"
+
+
