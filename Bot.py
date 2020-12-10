@@ -688,7 +688,5 @@ async def insult(ctx, target: discord.Member=None):
 
             
         
-# test:   NzU4MjE2NzM1NDI1Mjk4NDMz.X2ruXA.VhvUADQU0uk0U3RS9jRqJcxMAD8
-# production:   NzU1MTczNDA1NjAyNDgwMjg5.X1_cCg.Hixl5I6Sw-WhUbfTE5pmgURSXiY
 
 bot.run(os.environ["UNRBOTKEY"])
