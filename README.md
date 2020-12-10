@@ -5,7 +5,7 @@ are implemented for the sake of fun.
 
 Written in Python3.
 
-**ONLY COMPATIBLE FOR LINUX**
+**ONLY COMPATIBLE FOR LINUX (specifically Ubuntu 18.04)**
 
 To run from your own machine, run 
 ```
