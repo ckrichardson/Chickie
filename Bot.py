@@ -177,7 +177,7 @@ async def role(ctx, role=None):
 
 # Kicks a user from the server
 @commands.guild_only()
-@commands.has_any_role("Owner", "Mod")
+@commands.has_permissions(kick_members=True)
 @bot.command(pass_context=True)
 async def kick(ctx, member: discord.Member=None, *, reason=None):
     embed.title="Kick"
@@ -205,9 +205,25 @@ async def kick(ctx, member: discord.Member=None, *, reason=None):
         await member.kick(reason=reason)
 
 
+@kick.error
+async def kick_error(ctx, error):
+    embed.title="Kick"
+    if isinstance(error, commands.MissingPermissions):
+        embed.description = "<@{0}>".format(ctx.author.id) + " you do not have the permissions to run this command"
+        await ctx.send(embed=embed)
+
+    elif isinstance(error, commands.CommandError):
+        embed.description = "Command example:\n>Kick <@{0}> reason".format(ctx.author.id)    
+        await ctx.send(embed=embed)
+
+    elif isinstance(error, commands.BadArgument):
+        embed.description = "I cannot find this member"
+        await ctx.send(embed=embed)
+    
+
 # Bans a user from the server
 @commands.guild_only()
-@commands.has_any_role("Owner", "Mod")
+@commands.has_permissions(ban_members=True)
 @bot.command(pass_context=True)
 async def ban(ctx, member: discord.Member=None, *, reason=None):
 
@@ -235,6 +251,23 @@ async def ban(ctx, member: discord.Member=None, *, reason=None):
         embed.timestamp = datetime.today() + timedelta(hours=7)
         await member.send(embed=embed)
         await member.ban(reason=reason)
+
+
+@ban.error
+async def ban_error(ctx, error):
+    embed.title="Ban"
+    if isinstance(error, commands.MissingPermissions):
+        embed.description = "<@{0}>".format(ctx.author.id) + " you do not have the permissions to banhammer."
+        await ctx.send(embed=embed)
+
+    elif isinstance(error, commands.CommandError):
+        embed.description = "Command example:\n>Ban <@{0}> reason".format(ctx.author.id)    
+        await ctx.send(embed=embed)
+
+    elif isinstance(error, commands.BadArgument):
+        embed.description = "I cannot find this member"
+        await ctx.send(embed=embed)
+
 
 # Mutes a user
 @commands.guild_only()
