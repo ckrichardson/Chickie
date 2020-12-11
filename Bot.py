@@ -754,6 +754,29 @@ async def info_error(ctx, error):
         embed.description = "Command Example:\n>info <@{0.id}>".format(ctx.author)
 
     await ctx.send(embed=embed)
+
+
+@commands.guild_only()
+@bot.command(pass_context=True)
+async def avatar(ctx, member: discord.Member=None):
+    await ctx.send(member.avatar_url)
+
+
+@avatar.error
+async def avatar_error(ctx, error):
+    embed.title="Avatar"
+    if isinstance(error, commands.BadArgument):
+        embed.description = "User not found"
+
+    elif isinstance(error, commands.CommandError):
+        embed.description = "Command Example:\n>avatar <@{0.id}>".format(ctx.author)
+
+    await ctx.send(embed=embed)
+
+
+
+
+
 # Don't know about this boy
 
 #@commands.guild_only()
