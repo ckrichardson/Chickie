@@ -735,10 +735,13 @@ async def insult(ctx, target: discord.Member=None):
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def info(ctx, member: discord.Member=None):
-    embed.title = "Info"
+    global embed
+    n_embed = embed
+    n_embed.set_thumbnail(url=member.avatar_url)
+    n_embed.title = "Info"
     joined = member.joined_at.replace(microsecond=0) - timedelta(hours=8)
-    embed.description = "<@{0.id}> ".format(member) + "joined on `{0}`".format(joined) + " and has been a member of this server for `{0}`".format(datetime.now().replace(microsecond=0)-joined)
-    await ctx.send(embed=embed) 
+    n_embed.description = "<@{0.id}> ".format(member) + "joined on `{0}`".format(joined) + " and has been a member of this server for `{0}`".format(datetime.now().replace(microsecond=0)-joined)
+    await ctx.send(embed=n_embed) 
 
 
 @info.error
