@@ -15,3 +15,8 @@ chmod +x install
 ```
 
 Make sure to obtain a Discord API key as well as an OWM api key, then export them to your environment variables.
+
+Current Goals:
+- Implement new, useful features requested by the community
+- Write unit tests 
+- Write pythonic error handling
