@@ -313,9 +313,12 @@ async def mute_error(ctx, error):
 @commands.has_any_role("Mod","Owner")
 @bot.command(pass_context=True)
 async def purge(ctx, number: int=0):
+    # Error handler cannot catch purge number of 0 (number+1), this must be handled here
     if not number:
         embed.title = "Purge"
-        embed.description = "Usage: " + prefix + "purge number_of_messages"
+        embed.description = "Command Example: " + prefix + "purge 10"
+        await ctx.send(embed=embed)
+        return
     if number > 100:
         embed.description="100-line limit per purge."
         await ctx.send(embed=embed)
