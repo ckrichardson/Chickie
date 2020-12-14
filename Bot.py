@@ -95,19 +95,20 @@ async def on_guild_join(ctx):
 async def role(ctx, role=None):
     embed.title="Role"
     if not role:
-        embed.description="Current Students:\nFreshman, Sophomore, Junior, Senior, 5th+, PhD\n\nAlumnus:\nAlumnus\n\nMode:\nOnline, On-Campus"
+        embed.description="Current Students:\nFreshman, Sophomore, Junior, Senior, 5th+, Masters, PhD\n\nAlumnus:\nAlumnus\n\nMode:\nOnline, On-Campus"
         await ctx.send(embed=embed)
         return
 
     selected_role=""
     role = role.lower()
-    all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Doc Student", "Alumnus"]
+    all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
     freshman = ["freshman","freshmen","fresh"]
     sophomore = ["sophomore", "soph"]
     junior = "junior"
     senior = "senior"
     fifth_year_plus = "5th+"
     doc_student = "phd"
+    masters_student = "masters"
     alumnus = ["alumnus", "alumni"]
     on_campus_off_campus = ["online","on-campus"]
 
@@ -135,7 +136,11 @@ async def role(ctx, role=None):
         selected_role = discord.utils.get(ctx.guild.roles, name="5th+ Year")
         all_year_roles.remove("5th+ Year")
         all_year_roles = tuple(all_year_roles)
-    elif role==doc_student: 
+    elif role == masters_student:
+        selected_role = discord.utils.get(ctx.guild.roles, name="Masters Student")
+        all_year_roles.remove("Masters Student")
+        all_year_roles = tuple(all_year_roles)
+    elif role == doc_student: 
         selected_role = discord.utils.get(ctx.guild.roles, name="Doc Student")
         all_year_roles.remove("Doc Student")
         all_year_roles = tuple(all_year_roles)
