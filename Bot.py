@@ -517,16 +517,23 @@ async def covid(ctx):
 
 # Changes the status of the bot
 @commands.guild_only()
-@commands.has_any_role("Owner", "Mod")
+@commands.has_permissions(administrator=True)
 @bot.command(pass_context=True)
 async def status(ctx,*,game=None):
-    if not game:
-        embed.title = "Status"
-        embed.description = "Usage: " + prefix + "status put_status_here"
-        await ctx.send(embed=embed)
     game = discord.Game(str(game))
     await bot.change_presence(activity=game)
 
+
+@status.error
+async def status_error(ctx, error):
+    embed.title="Status"
+    if isinstance(error, commands.MissingPermissions):
+        embed.description="You do not have the permissions to use this command"
+
+    elif isinstance(error, commannds.CommandError):
+        embed.description="Command example:\n>status looking for booty"
+
+    await ctx.send(embed=embed)
 
 # Say hello to the bot
 @commands.guild_only()
