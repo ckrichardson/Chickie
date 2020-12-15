@@ -358,7 +358,6 @@ async def samhyde(ctx):
 
 
 # Get the weather of a location
-# I think the search function is broken 
 @commands.guild_only()
 @bot.command()
 async def weather(ctx, *location):
@@ -367,7 +366,7 @@ async def weather(ctx, *location):
     if not len(location):
         location = "Reno"
     else:
-        location = ' '.join(word for word in args)
+        location = ' '.join(word for word in location)
     observation = owm.weather_at_place(location)
     w = observation.get_weather()
     fc = owm.three_hours_forecast(location)
