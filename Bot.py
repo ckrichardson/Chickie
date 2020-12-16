@@ -746,6 +746,18 @@ async def insult(ctx, target: discord.Member=None):
     await ctx.send(msg)
 
 
+@insult.error
+async def insult_error(ctx, error):
+    embed.title="Insult"
+    if isinstance(error, commands.BadArgument):
+        embed.description = "User not found"
+    
+    elif isinstance(error, commands.CommandError):
+        embed.description = "Command Example:\n>insult <@{0.id}>".format(ctx.author)
+
+    await ctx.send(embed=embed)
+
+
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def info(ctx, member: discord.Member=None):
