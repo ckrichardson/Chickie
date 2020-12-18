@@ -362,7 +362,11 @@ async def samhyde(ctx):
 @bot.command()
 async def weather(ctx, *location):
     global color
+    valid_weather = {"Clear": ":sunny:", "Clouds": ":cloud:", \
+                     "Rain": "cloud_rain", "Snow": "snowflake"}
+
     owm = pyowm.OWM(owm_api_key)
+
     if not len(location):
         location = "Reno"
     else:
@@ -372,7 +376,6 @@ async def weather(ctx, *location):
     fc = owm.three_hours_forecast(location)
     f = fc.get_forecast()
     temps = w.get_temperature("fahrenheit")
-
     humidity = w.get_humidity()    
     current_temp = temps["temp"]
     temp_max = temps["temp_max"]
@@ -387,31 +390,13 @@ async def weather(ctx, *location):
         if not start_time:
             start_time = time
             first_weather_status = weather.get_status()
-            if first_weather_status == "Clear":
-                weather_icon = weather.get_weather_icon_url()
-            elif first_weather_status == "Clouds":
-                weather_icon = weather.get_weather_icon_url()
-            elif first_weather_status == "Rain":
-                weather_icon = weather.get_weather_icon_url()
-            elif first_weather_status == "Snow":
+            if first_weather_status in valid_weather:
                 weather_icon = weather.get_weather_icon_url()
         if time - timedelta(hours=24) > start_time:
             break
         pst = time - timedelta(hours=7)
-        forecasts = forecasts + "`" + pst.strftime("%m/%d .... %H:%M") + "` "
-
-        # if pst.hour >
-
-        if weather.get_status() == "Clear":
-            forecasts = forecasts + ":sunny:"
-        elif weather.get_status() == "Clouds":
-            forecasts = forecasts + ":cloud:"
-        elif weather.get_status() == "Rain":
-            forecasts = forecasts + ":cloud_rain:"
-        elif weather.get_status() == "Snow":
-            forecasts = forecasts + ":snowflake:"
-
-        forecasts = forecasts + "\n"
+        forecasts += "`" + pst.strftime("%m/%d .... %H:%M") + "` "
+        forecasts += valid_weather[weather.get_status()] + "\n"
 
     current_max_min = "Now:   " + str(current_temp) + "   \nMax:   " + str(temp_max) + "   \nMin:   " + str(temp_min)
     conditions = "Skies:   " + first_weather_status + "\nHumidity:   " + str(humidity) + "%"
@@ -424,6 +409,14 @@ async def weather(ctx, *location):
     embed.add_field(name="24 Hour Forecast (PST)", value=forecasts)
     await ctx.send(embed=embed)
 
+
+@weather.error
+async def weather_error(ctx, error):
+	embed.title = "Weather"
+	if isinstance(error, commands.CommandInvokeError):
+		embed.description = "Couldn't find that location"
+
+	await ctx.send(embed=embed)
 
 # Retrieve AQI of reno
 @commands.guild_only()
