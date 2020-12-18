@@ -473,9 +473,7 @@ async def wiki(ctx, *search):
 
     except wikipedia.exceptions.DisambiguationError as e:
         list_of_options = "Did you mean one of these...?\n\n"
-
         counter = 1
-
         limit = 20
 
         if len(e.options) < 20:
