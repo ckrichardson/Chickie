@@ -15,6 +15,8 @@ chmod +x install
 ```
 
 Make sure to obtain a Discord API key as well as an OWM api key, then export them to your environment variables.
+To make environment variables persist, edit ~/.bashrc and write your export commands there.
+
 
 Current Goals:
 - Implement new, useful features requested by the community
