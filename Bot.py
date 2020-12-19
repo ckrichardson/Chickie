@@ -164,18 +164,14 @@ async def role(ctx, role=None):
         await ctx.send(embed=embed)
         return
 
-
     # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
     if year_role:
         remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in all_year_roles)
     elif on_off_campus:
         remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in on_campus_off_campus)
-    
-    # for role in ctx.guild.roles
 
     member = ctx.message.author
     
-
     await member.add_roles(selected_role)
     await member.remove_roles(*remove_roles)
 
@@ -418,6 +414,7 @@ async def weather_error(ctx, error):
 
 	await ctx.send(embed=embed)
 
+
 # Retrieve AQI of reno
 @commands.guild_only()
 @bot.command(pass_context=True)
@@ -532,6 +529,7 @@ async def status_error(ctx, error):
         embed.description="Command example:\n>status looking for booty"
 
     await ctx.send(embed=embed)
+
 
 # Say hello to the bot
 @commands.guild_only()
@@ -687,6 +685,7 @@ async def hm(ctx, letter=None):
                 await ctx.send(hangman_states[stage]+blanks+"\nMissed:   " + " ".join(missed)+"```")
                 hangman_cache.pop(author_id, None)
                 return   
+
             if hangman_cache[author_id][0] == 7:
                 blanks = "\n\n" + ' '.join(x for x in selected_word)
                 await ctx.send("You've let him hang <@{0}>, how could you...".format(author_id))
@@ -789,6 +788,7 @@ async def avatar_error(ctx, error):
         embed.description = "Command Example:\n>avatar <@{0.id}>".format(ctx.author)
 
     await ctx.send(embed=embed)
+
 
 @commands.guild_only()
 @bot.command(pass_context=True)
