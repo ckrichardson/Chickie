@@ -25,8 +25,7 @@ embed = discord.Embed(color=color)
 embed.set_thumbnail(url=avatar)
 
 #Intents
-intents = discord.Intents()
-intents.members = True
+intents = discord.Intents.all()
 
 # Prefix used for the bot
 prefix = '>'

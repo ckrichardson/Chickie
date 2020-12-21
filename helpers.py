@@ -155,19 +155,18 @@ async def minmax(board, depth, max_player):
 
 async def get_covid_data():
     r = requests.get("https://www.unr.edu/coronavirus/dashboard")
-    data = r.content[100000:120000]
-    update = r.content[0:100000]
+    data = r.content
     soup = BeautifulSoup(data, "html.parser")
-    update_soup = BeautifulSoup(update, "html.parser")
+    update_soup = BeautifulSoup(data, "html.parser")
 
     p_fields = soup.find_all('p', class_='large-body-copy')
-    print(p_fields)
+    # print(p_fields)
     update_info = update_soup.find('em').get_text()
     nums = [unicodedata.normalize("NFKD", x.get_text().replace(",","")) for x in p_fields]
 
-    s_active_data, s_recovered_data, s_total_data = nums[3].split('('), nums[4].split('('), nums[5].split('(')
-    f_active_data, f_recovered_data, f_total_data = nums[6].split('('), nums[7].split('('), nums[8].split('(')
-    
+    s_active_data, s_recovered_data, s_total_data = nums[6].split('('), nums[7].split('('), nums[8].split('(')
+    f_active_data, f_recovered_data, f_total_data = nums[9].split('('), nums[10].split('('), nums[11].split('(')
+
     s_active, s_recovered, s_total = int(s_active_data[0]), int(s_recovered_data[0]), int(s_total_data[0])
     f_active, f_recovered, f_total = int(f_active_data[0]), int(f_recovered_data[0]), int(f_total_data[0])
 
