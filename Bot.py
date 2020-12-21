@@ -70,7 +70,8 @@ async def on_ready():
 # Currently sends them a welcome message
 @bot.event
 async def on_member_join(member):
-	embed.description = "**Welcome!**\n\n" + text.rules
+	embed.title = "Welcome!"
+	embed.description = text.rules
 	await member.send(embed=embed)
 
 
