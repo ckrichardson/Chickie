@@ -24,9 +24,13 @@ avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f
 embed = discord.Embed(color=color)
 embed.set_thumbnail(url=avatar)
 
+#Intents
+intents = discord.Intents()
+intents.members = True
+
 # Prefix used for the bot
 prefix = '>'
-bot = commands.Bot(command_prefix=prefix)
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 # Different caches for things such as sam hyde images and game sessions
 global_image_pointer_cache = dict()
@@ -66,12 +70,8 @@ async def on_ready():
 # Currently sends them a welcome message
 @bot.event
 async def on_member_join(member):
-    if member.id in blacklist:
-        member.ban(reason="Blacklisted")
-        return
-    embed.title="Welcome!"
-    embed.description=text.rules
-    await member.send(embed=embed)
+	embed.description = "**Welcome!**\n\n" + text.rules
+	await member.send(embed=embed)
 
 
 # An attempt trying to configure things upon the bot joining
@@ -99,6 +99,7 @@ async def role(ctx, role=None):
         await ctx.send(embed=embed)
         return
 
+    roles_bin = 255   # 1=Freshman, 2=Sophomore, 4=Junior, and so on
     selected_role=""
     role = role.lower()
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
