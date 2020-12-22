@@ -39,8 +39,11 @@ ttt_board = [['.','.','.'],['.','.','.'],['.','.','.']]
 words = list()
 ttt_cache = dict()
 hangman_cache = dict()
-hangman_states = {0: text.hangman_0, 1: text.hangman_1, 2: text.hangman_2, 3: text.hangman_3, 4: text.hangman_4, 5: text.hangman_5, \
+hangman_states = {0: text.hangman_0, 1: text.hangman_1, \
+				  2: text.hangman_2, 3: text.hangman_3, \
+				  4: text.hangman_4, 5: text.hangman_5, \
                   6: text.hangman_6, 7: text.hangman_7}
+                  
 challenge_cache = dict()
 game_boards = dict(); game_boards["ttt"] = ttt_board
 
@@ -808,6 +811,6 @@ async def dm_error(ctx,error):
         embed.description = "Command Example:\n>dm <@{0.id}> wats up dude".format(ctx.author)
     
     await ctx.send(embed=embed)
-            
+
    
 bot.run(os.environ["UNRBOTKEY"])
