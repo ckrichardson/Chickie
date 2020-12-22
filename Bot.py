@@ -24,7 +24,7 @@ avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f
 embed = discord.Embed(color=color)
 embed.set_thumbnail(url=avatar)
 
-#Intents
+#Intents (this is necessary for the welcome message)
 intents = discord.Intents.all()
 
 # Prefix used for the bot
@@ -43,7 +43,7 @@ hangman_states = {0: text.hangman_0, 1: text.hangman_1, \
 				  2: text.hangman_2, 3: text.hangman_3, \
 				  4: text.hangman_4, 5: text.hangman_5, \
                   6: text.hangman_6, 7: text.hangman_7}
-                  
+
 challenge_cache = dict()
 game_boards = dict(); game_boards["ttt"] = ttt_board
 
