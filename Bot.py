@@ -808,32 +808,6 @@ async def dm_error(ctx,error):
         embed.description = "Command Example:\n>dm <@{0.id}> wats up dude".format(ctx.author)
     
     await ctx.send(embed=embed)
-
-
-# Don't know about this boy
-
-#@commands.guild_only()
-#@bot.command(pass_context=True)
-#async def challenge(ctx, user: discord.Member=None, game=None):
-#    global available_games
-#    global challenge_cache
-#    global game_boards
-#
-#    if not user or not game or game.lower() not in available_games:
-#        embed.title = "Challenge"
-#        embed.description = "Usage: >challenge (@user) (game)\n\nGames: ttt"
-#        await ctx.send(embed=embed)
-#        return
-#    game_key = ctx.author.id ^ user.id
-#    challenge_keys = challenge_cache.keys()
-#    if game_key not in challenge_keys:
-#        embed.title = "{0} vs {1}".format(ctx.author.name, user.name)
-#        embed.description = "<@{0}>, you've been challenged to {1}!\nType \'>challenge <@{2}> {3}\' to accept the challenge".format(ctx.author.id, game, user.id, game)
-#        turn, accepted, challenger, opposition = random.randint(0, 1), False, ctx.author.id, user.id
-#        challenge_cache[game_key] = [game, accepted, challenger, opposition]
-#    elif game_key in challenge_keys and not challenge_cache[game_key][2] and challenge_cache[game_key][3] == ctx.author.id:
-#        challenge_cache[game_key][1] = True 
-        
-        
+            
    
 bot.run(os.environ["UNRBOTKEY"])
