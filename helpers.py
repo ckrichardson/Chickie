@@ -195,7 +195,7 @@ async def create_sanic_image(text):
     font = ImageFont.truetype(font_path, size=70)
 
     for i in range(len(k)):
-        current_word = k[i]
+        current_word = k[i].encode('unicode_escape').decode('UTF-8')
         len_word = len(current_word)
         if chars+len_word > 18:
             draw.text((x,y), message,  fill=color, font=font)
