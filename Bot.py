@@ -815,7 +815,7 @@ async def dm_error(ctx,error):
 
 @commands.guild_only()
 @bot.command(pass_context=True)
-async def sanic(ctx, *text):
+async def sanic(ctx, *, text=None):
     img = await helpers.create_sanic_image(text)
     img.seek(0)
     await ctx.send(file=discord.File(img, "sanic.jpg"))
