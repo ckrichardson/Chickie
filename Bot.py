@@ -338,7 +338,7 @@ async def purge(ctx, number: int=0):
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def samhyde(ctx):
-    path = os.getcwd() + "/samhyde/"
+    path = os.getcwd() + "/images/samhyde/"
     filename = random.choice(os.listdir(path))
     full_path = path+filename
     print(full_path)
@@ -812,5 +812,12 @@ async def dm_error(ctx,error):
     
     await ctx.send(embed=embed)
 
+
+@commands.guild_only()
+@bot.command(pass_context=True)
+async def sanic(ctx, *text):
+    img = await helpers.create_sanic_image(text)
+    img.seek(0)
+    await ctx.send(file=discord.File(img, "sanic.jpg"))
    
 bot.run(os.environ["UNRBOTKEY"])

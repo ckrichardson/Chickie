@@ -5,9 +5,11 @@ import datetime
 from discord.ext import commands
 import discord as discord
 import hashlib
+import io
 import json
 import math
 import os
+from PIL import Image, ImageDraw, ImageFont
 import pyowm
 import random
 import requests
@@ -178,4 +180,36 @@ async def get_covid_data():
 async def get_insult():
     r = requests.get("https://evilinsult.com/generate_insult.php?type=plain&lang=en")
     return r.content.decode()
+
+
+async def create_sanic_image(text):
+    font_path = os.getcwd() + "/fonts/Roboto-Bold.ttf"
+    image_path = os.getcwd() + "/images/sanic.jpg"
+    k = text
+    image  = Image.open(image_path)
+    draw = ImageDraw.Draw(image)
+    x, y = 45, 200
+    color = 'rgb(255,255,255)'
+    message = ""
+    chars = 0
+    font = ImageFont.truetype(font_path, size=70)
+
+    for i in range(len(k)):
+        current_word = k[i]
+        len_word = len(current_word)
+        if chars+len_word > 17:
+            draw.text((x,y), message,  fill=color, font=font)
+            y += 105
+            chars = len_word
+            message = current_word + " "
+        else:
+            message += current_word + " "
+            chars += len_word
+
+    draw.text((x,y), message, fill=color, font=font)
+
+    img_byte_array = io.BytesIO()
+    image.save(img_byte_array, format="JPEG")
+
+    return img_byte_array
 
