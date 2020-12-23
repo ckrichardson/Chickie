@@ -185,7 +185,7 @@ async def get_insult():
 async def create_sanic_image(text):
     font_path = os.getcwd() + "/fonts/Roboto-Bold.ttf"
     image_path = os.getcwd() + "/images/sanic.jpg"
-    k = text
+    k = ''.join(text).split(" ")
     image  = Image.open(image_path)
     draw = ImageDraw.Draw(image)
     x, y = 45, 200
@@ -195,7 +195,7 @@ async def create_sanic_image(text):
     font = ImageFont.truetype(font_path, size=70)
 
     for i in range(len(k)):
-        current_word = k[i].encode('unicode_escape').decode('UTF-8')
+        current_word = k[i] 
         len_word = len(current_word)
         if chars+len_word > 18:
             draw.text((x,y), message,  fill=color, font=font)
