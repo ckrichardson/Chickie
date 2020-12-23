@@ -197,7 +197,7 @@ async def create_sanic_image(text):
     for i in range(len(k)):
         current_word = k[i]
         len_word = len(current_word)
-        if chars+len_word > 17:
+        if chars+len_word > 18:
             draw.text((x,y), message,  fill=color, font=font)
             y += 105
             chars = len_word
