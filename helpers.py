@@ -194,17 +194,26 @@ async def create_sanic_image(text):
     chars = 0
     font = ImageFont.truetype(font_path, size=70)
 
+    limit = 20
+    line = 0
+
     for i in range(len(k)):
+        if line > 0:
+            limit = 21
+        if i > 1:
+            limit = 22
+
         current_word = k[i] 
         len_word = len(current_word)
-        if chars+len_word > 18:
+        if chars+len_word+1 > limit:
             draw.text((x,y), message,  fill=color, font=font)
             y += 105
-            chars = len_word
+            chars = len_word+1
             message = current_word + " "
+            line += 1
         else:
             message += current_word + " "
-            chars += len_word
+            chars += len_word+1
 
     draw.text((x,y), message, fill=color, font=font)
 
