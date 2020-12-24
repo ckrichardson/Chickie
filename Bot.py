@@ -20,7 +20,8 @@ import wikipedia
 
 # Setting the embed characteristics here
 color = 0xC0C0C0
-avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f4fa72437d9e516ef.png"
+# regular:   avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f4fa72437d9e516ef.png"
+avatar = "https://media.discordapp.net/attachments/489705418197565468/791766653661872178/ezgif-6-a14584182ae0.png?width=468&height=468"
 embed = discord.Embed(color=color)
 embed.set_thumbnail(url=avatar)
 
