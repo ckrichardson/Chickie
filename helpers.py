@@ -14,6 +14,7 @@ import pyowm
 import random
 import requests
 import smtplib
+import text
 import time
 import unicodedata
 import urllib
@@ -221,4 +222,23 @@ async def create_sanic_image(text):
     image.save(img_byte_array, format="JPEG")
 
     return img_byte_array
+
+
+async def get_hm_states():
+    return {0: text.hangman_0, 1: text.hangman_1, \
+            2: text.hangman_2, 3: text.hangman_3, \
+            4: text.hangman_4, 5: text.hangman_5, \
+            6: text.hangman_6, 7: text.hangman_7}
+
+
+async def get_quotes():
+    with open(os.getcwd()+"/quotes.json", "r") as quotes_file:
+        quotes = json.loads(quotes_file.read())
+        return quotes
+
+
+async def get_blacklist():
+    with open(os.getcwd()+"/blacklist.txt", "r") as bl:
+        blacklist = [int(x) for x in bl]
+        return blacklist
 
