@@ -18,12 +18,6 @@ import text
 import time
 import wikipedia
 
-# Setting the embed characteristics here
-color = 0xC0C0C0
-# regular:   avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f4fa72437d9e516ef.png"
-avatar = "https://media.discordapp.net/attachments/489705418197565468/791766653661872178/ezgif-6-a14584182ae0.png?width=468&height=468"
-embed = discord.Embed(color=color)
-embed.set_thumbnail(url=avatar)
 
 #Intents (this is necessary for the welcome message)
 intents = discord.Intents.all()
@@ -32,39 +26,60 @@ intents = discord.Intents.all()
 prefix = '>'
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 
+# Declare the embed characteristics here
+color = 0
+avatar = ""
+embed = None
+
 # Different caches for things such as sam hyde images and game sessions
-global_image_pointer_cache = dict()
-covid_cache = ["date", 0]
-available_games = ["ttt"]
-ttt_board = [['.','.','.'],['.','.','.'],['.','.','.']]
+covid_cache, available_games, ttt_board, hangman_states = None, None, None, None
+global_image_pointer_cache, ttt_cache, hangman_cache, game_boards = dict(), dict(), dict(), dict()
 words = list()
-ttt_cache = dict()
-hangman_cache = dict()
-hangman_states = {0: text.hangman_0, 1: text.hangman_1, \
-				  2: text.hangman_2, 3: text.hangman_3, \
-				  4: text.hangman_4, 5: text.hangman_5, \
-                  6: text.hangman_6, 7: text.hangman_7}
 
-challenge_cache = dict()
-game_boards = dict(); game_boards["ttt"] = ttt_board
-
-# Load quotes
+# Declare quotes, blacklist
 quotes = ""
-with open(os.getcwd()+"/quotes.json", "r") as quotes_file:
-    quotes = json.loads(quotes_file.read())
-
-# Load blacklist
 blacklist = None
-with open(os.getcwd()+"/blacklist.txt", "r") as bl:
-    blacklist = [int(x) for x in bl]
 
+# API keys, tokens (the BOT'S key cannot go here)
 owm_api_key = os.environ["OWMAPIKEY"]
 
+
+async def init_vars():
+	# Bot characteristics
+	global color
+	global avatar
+	global embed
+
+	color = 0xC0C0C0
+	avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f4fa72437d9e516ef.png"
+	embed = discord.Embed(color=color)
+	embed.set_thumbnail(url=avatar)
+
+	# Cache, states, etc.
+	global available_games
+	global covid_cache
+	global ttt_board
+	global hangman_states
+	global game_boards
+
+	available_games = ["ttt"]
+	covid_cache = ["date", 0]
+	ttt_board = [['.','.','.'],['.','.','.'],['.','.','.']]
+	hangman_states = await helpers.get_hm_states()
+	game_boards["ttt"] = ttt_board
+
+	# Quotes and blacklist
+	global quotes
+	global blacklist
+
+	quotes = await helpers.get_quotes()
+	blacklist = await helpers.get_blacklist()
 
 # Things to run once the bot successfully authenticates
 @bot.event
 async def on_ready():
     print("Bot online")
+    await init_vars()
     game = discord.Game("Fluffing Feathers")
     await bot.change_presence(activity=game)
 
@@ -803,7 +818,7 @@ async def dm(ctx, member: discord.Member=None, *message):
 
 
 @dm.error
-async def dm_error(ctx,error):
+async def dm_error(ctx, error):
     embed.title="dm"
     if isinstance(error, commands.BadArgument):
         embed.description = "User not found"
@@ -817,8 +832,9 @@ async def dm_error(ctx,error):
 @commands.guild_only()
 @bot.command(pass_context=True)
 async def sanic(ctx, *, text=None):
-    img = await helpers.create_sanic_image(text)
-    img.seek(0)
-    await ctx.send(file=discord.File(img, "sanic.jpg"))
+	img = await helpers.create_sanic_image(text)
+	img.seek(0)
+	await ctx.send(file=discord.File(img, "sanic.jpg"))
+
    
 bot.run(os.environ["UNRBOTKEY"])
