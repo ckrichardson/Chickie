@@ -75,6 +75,7 @@ async def init_vars():
 	quotes = await helpers.get_quotes()
 	blacklist = await helpers.get_blacklist()
 
+
 # Things to run once the bot successfully authenticates
 @bot.event
 async def on_ready():
