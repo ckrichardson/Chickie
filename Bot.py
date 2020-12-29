@@ -119,17 +119,17 @@ async def role(ctx, role=None):
         await ctx.send(embed=embed)
         return
 
-    roles_bin = 255   # 1=Freshman, 2=Sophomore, 4=Junior, and so on
     selected_role=""
     role = role.lower()
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
+
+    # Undergraduate students
     freshman = ["freshman","freshmen","fresh"]
     sophomore = ["sophomore", "soph"]
-    junior = "junior"
-    senior = "senior"
-    fifth_year_plus = "5th+"
-    doc_student = "phd"
-    masters_student = "masters"
+    junior, senior, fifth_year_plus = "junior", "senior", "5th+"
+ 
+ 	# Graduate students
+    doc_student, masters_student = "phd", "masters"
     alumnus = ["alumnus", "alumni"]
     on_campus_off_campus = ["online","on-campus"]
 
