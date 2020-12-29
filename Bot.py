@@ -122,6 +122,7 @@ async def role(ctx, role=None):
     selected_role=""
     role = role.lower()
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
+    original_len = len(all_year_roles)
 
     # Undergraduate students
     freshman = ["freshman","freshmen","fresh"]
@@ -133,8 +134,7 @@ async def role(ctx, role=None):
     alumnus = ["alumnus", "alumni"]
     on_campus_off_campus = ["online","on-campus"]
 
-    year_role = True
-    on_off_campus = False
+    year_campus_toggle = True # True means we are changing year role, False means campus
 
     # Year Roles 
     if role in freshman:
@@ -165,19 +165,19 @@ async def role(ctx, role=None):
     all_year_roles = tuple(all_year_roles)
 
     # Online / On-Campus Roles
-    if role==on_campus_off_campus[0]:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Online Student")
-        on_campus_off_campus = tuple(["On-Campus Student"])
-        year_role, on_off_campus = False, True
-    elif role==on_campus_off_campus[1]:
-        selected_role = discord.utils.get(ctx.guild.roles, name="On-Campus Student")
-        on_campus_off_campus = tuple(["Online Student"])
-        year_role, on_off_campus = False, True
+    if not len(all_year_roles) - original_len:
+        year_campus_toggle = False
+        if role==on_campus_off_campus[0]:
+            selected_role = discord.utils.get(ctx.guild.roles, name="Online Student")
+            on_campus_off_campus = tuple(["On-Campus Student"])
+        elif role==on_campus_off_campus[1]:
+            selected_role = discord.utils.get(ctx.guild.roles, name="On-Campus Student")
+            on_campus_off_campus = tuple(["Online Student"])
 
     # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
-    if year_role:
+    if year_campus_toggle:
         remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in all_year_roles)
-    elif on_off_campus:
+    else:
         remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in on_campus_off_campus)
 
     member = ctx.message.author
