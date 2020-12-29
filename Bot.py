@@ -174,11 +174,6 @@ async def role(ctx, role=None):
         on_campus_off_campus = tuple(["Online Student"])
         year_role, on_off_campus = False, True
 
-    if selected_role=="":
-        embed.description="Couldn't find your role... Could you try again?"
-        await ctx.send(embed=embed)
-        return
-
     # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
     if year_role:
         remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in all_year_roles)
