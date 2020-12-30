@@ -119,8 +119,11 @@ async def role(ctx, role=None):
         await ctx.send(embed=embed)
         return
 
+
+    d_get = discord.utils.get
+    g_roles = ctx.guild.roles
     selected_role=""
-    role = role.lower()
+    role = role.lower() # make input case insensitive
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
     original_len = len(all_year_roles)
 
@@ -134,32 +137,32 @@ async def role(ctx, role=None):
     alumnus = ["alumnus", "alumni"]
     on_campus_off_campus = ["online","on-campus"]
 
-    year_campus_toggle = True # True means we are changing year role, False means campus
+    year_campus_toggle = True # True means we are changing year role, False means mode (online, on-campus)
 
     # Year Roles 
     if role in freshman:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Freshman")
+        selected_role = d_get(g_roles, name="Freshman")
         all_year_roles.remove("Freshman")
     elif role in sophomore:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Sophomore")
+        selected_role = d_get(g_roles, name="Sophomore")
         all_year_roles.remove("Sophomore")
     elif role == junior:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Junior")
+        selected_role = d_get(g_roles, name="Junior")
         all_year_roles.remove("Junior")
     elif role == senior:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Senior")
+        selected_role = d_get(g_roles, name="Senior")
         all_year_roles.remove("Senior")
     elif role == fifth_year_plus:
-        selected_role = discord.utils.get(ctx.guild.roles, name="5th+ Year")
+        selected_role = d_gete(g_roles, name="5th+ Year")
         all_year_roles.remove("5th+ Year")
     elif role == masters_student:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Masters Student")
+        selected_role = d_get(g_roles, name="Masters Student")
         all_year_roles.remove("Masters Student")
     elif role == doc_student: 
-        selected_role = discord.utils.get(ctx.guild.roles, name="Doc Student")
+        selected_role = d_get(g_roles, name="Doc Student")
         all_year_roles.remove("Doc Student")
     elif role in alumnus:
-        selected_role = discord.utils.get(ctx.guild.roles, name="Alumnus")
+        selected_role = d_get(g_roles, name="Alumnus")
         all_year_roles.remove("Alumnus")
 
     all_year_roles = tuple(all_year_roles)
@@ -168,17 +171,17 @@ async def role(ctx, role=None):
     if not len(all_year_roles) - original_len:
         year_campus_toggle = False
         if role==on_campus_off_campus[0]:
-            selected_role = discord.utils.get(ctx.guild.roles, name="Online Student")
+            selected_role = d_get(g_roles, name="Online Student")
             on_campus_off_campus = tuple(["On-Campus Student"])
         elif role==on_campus_off_campus[1]:
-            selected_role = discord.utils.get(ctx.guild.roles, name="On-Campus Student")
+            selected_role = d_get(g_roles, name="On-Campus Student")
             on_campus_off_campus = tuple(["Online Student"])
 
     # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
     if year_campus_toggle:
-        remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in all_year_roles)
+        remove_roles = tuple(d_get(g_roles, name=n) for n in all_year_roles)
     else:
-        remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in on_campus_off_campus)
+        remove_roles = tuple(d_get(g_roles, name=n) for n in on_campus_off_campus)
 
     member = ctx.message.author
     
