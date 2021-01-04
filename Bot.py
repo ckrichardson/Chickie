@@ -1,5 +1,6 @@
 import asyncio
 from bs4 import BeautifulSoup
+from copy import deepcopy
 import datetime
 from datetime import datetime
 from datetime import timedelta
@@ -119,9 +120,9 @@ async def role(ctx, role=None):
         await ctx.send(embed=embed)
         return
 
-
     d_get = discord.utils.get
     g_roles = ctx.guild.roles
+
     selected_role=""
     role = role.lower() # make input case insensitive
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
@@ -765,7 +766,7 @@ async def insult_error(ctx, error):
 @bot.command(pass_context=True)
 async def info(ctx, member: discord.Member=None):
     global embed
-    n_embed = embed
+    n_embed = deepcopy(embed)
     n_embed.set_thumbnail(url=member.avatar_url)
     n_embed.title = "Info"
     joined = member.joined_at.replace(microsecond=0) - timedelta(hours=8)
