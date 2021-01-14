@@ -258,6 +258,7 @@ async def ban(ctx, member: discord.Member=None, *, reason=None):
         return
 
     else:
+        await member.ban(reason=reason)
         embed.description = "<@{0}>".format(member.id) + "  JUST GOT FKING BAN HAMMERED!!!\n\nReason: {0}".format(reason)
         await ctx.send(embed=embed)
         embed.title = "BANNED"
@@ -265,7 +266,6 @@ async def ban(ctx, member: discord.Member=None, *, reason=None):
                              + reason)
         embed.timestamp = datetime.today() + timedelta(hours=7)
         await member.send(embed=embed)
-        await member.ban(reason=reason)
 
 
 @ban.error
