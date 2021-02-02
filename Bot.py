@@ -373,7 +373,7 @@ async def samhyde(ctx):
 async def weather(ctx, *location):
     global color
     valid_weather = {"Clear": ":sunny:", "Clouds": ":cloud:", \
-                     "Rain": "cloud_rain", "Snow": ":snowflake:"}
+                     "Rain": ":cloud_rain:", "Snow": ":snowflake:"}
 
     owm = pyowm.OWM(owm_api_key)
 
