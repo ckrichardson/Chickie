@@ -122,10 +122,13 @@ async def role(ctx, role=None):
 
     d_get = discord.utils.get
     g_roles = ctx.guild.roles
+    
+    member = ctx.message.author
 
     selected_role=""
     role = role.lower() # make input case insensitive
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
+    all_modes = ["On-Campus Student", "Online Student"]
     original_len = len(all_year_roles)
 
     # Undergraduate students
@@ -169,6 +172,8 @@ async def role(ctx, role=None):
     elif role in alumnus:
         selected_role = d_get(g_roles, name="Alumnus")
         all_year_roles.remove("Alumnus")
+        remove_campus_roles = tuple(d_get(g_roles, name=n) for n in all_modes)
+        await member.remove_roles(*remove_campus_roles)
 
     all_year_roles = tuple(all_year_roles)
 
@@ -192,9 +197,7 @@ async def role(ctx, role=None):
     if role in fun_roles:
         selected_role = d_get(g_roles, name=role.title())
         fun_bool = True
-
-    member = ctx.message.author
-    
+ 
     await member.add_roles(selected_role)
     if not fun_bool:
         await member.remove_roles(*remove_roles)
