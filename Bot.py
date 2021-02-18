@@ -52,7 +52,7 @@ async def init_vars():
 	global embed
 
 	color = 0xC0C0C0
-	avatar = "https://cdn.discordapp.com/avatars/755173405602480289/98790eb3ad08261f4fa72437d9e516ef.png"
+	avatar = "https://cdn.discordapp.com/avatars/755173405602480289/5c43363260893ef6d6f6de37193b7057.png?size=256"
 	embed = discord.Embed(color=color)
 	embed.set_thumbnail(url=avatar)
 
@@ -116,7 +116,7 @@ async def on_guild_join(ctx):
 async def role(ctx, role=None):
     embed.title="Role"
     if not role:
-        embed.description="**Current Students**:\nFreshman | Sophomore | Junior | Senior | 5th+ | Masters | PhD\n\n**Alumnus**:\nAlumnus\n\n**Mode**:\nOnline | On-Campus"
+        embed.description="**Current Students**:\nFreshman | Sophomore | Junior | Senior | 5th+ | Masters | PhD\n\n**Alumnus**:\nAlumnus\n\n**Mode**:\nOnline | On-Campus\n\n**Funsies**:\nGamer"
         await ctx.send(embed=embed)
         return
 
@@ -133,10 +133,14 @@ async def role(ctx, role=None):
     sophomore = ["sophomore", "soph"]
     junior, senior, fifth_year_plus = "junior", "senior", "5th+"
  
- 	# Graduate students
+    # Graduate students
     doc_student, masters_student = "phd", "masters"
     alumnus = ["alumnus", "alumni"]
     on_campus_off_campus = ["online","on-campus"]
+
+    # Fun roles
+    fun_roles = ["gamer"]
+    fun_bool = False
 
     year_campus_toggle = True # True means we are changing year role, False means mode (online, on-campus)
 
@@ -178,16 +182,22 @@ async def role(ctx, role=None):
             selected_role = d_get(g_roles, name="On-Campus Student")
             on_campus_off_campus = tuple(["Online Student"])
 
+
     # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
     if year_campus_toggle:
         remove_roles = tuple(d_get(g_roles, name=n) for n in all_year_roles)
     else:
-        remove_roles = tuple(d_get(g_roles, name=n) for n in on_campus_off_campus)
+        remove_roles = tuple(d_get(g_roles, name=n) for n in on_campus_off_campus) 
+
+    if role in fun_roles:
+        selected_role = d_get(g_roles, name=role.title())
+        fun_bool = True
 
     member = ctx.message.author
     
     await member.add_roles(selected_role)
-    await member.remove_roles(*remove_roles)
+    if not fun_bool:
+        await member.remove_roles(*remove_roles)
 
 
 # Kicks a user from the server
