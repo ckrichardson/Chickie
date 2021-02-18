@@ -125,7 +125,7 @@ async def role(ctx, role=None):
     
     member = ctx.message.author
 
-    selected_role=""
+    selected_role=None
     role = role.lower() # make input case insensitive
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
     all_modes = ["On-Campus Student", "Online Student"]
@@ -178,6 +178,7 @@ async def role(ctx, role=None):
     all_year_roles = tuple(all_year_roles)
 
     # Online / On-Campus Roles
+    # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
     if not len(all_year_roles) - original_len:
         year_campus_toggle = False
         if role==on_campus_off_campus[0]:
@@ -187,17 +188,14 @@ async def role(ctx, role=None):
             selected_role = d_get(g_roles, name="On-Campus Student")
             on_campus_off_campus = tuple(["Online Student"])
 
-
-    # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
-    if year_campus_toggle:
-        remove_roles = tuple(d_get(g_roles, name=n) for n in all_year_roles)
-    else:
         remove_roles = tuple(d_get(g_roles, name=n) for n in on_campus_off_campus) 
+    else: 
+        remove_roles = tuple(d_get(g_roles, name=n) for n in all_year_roles)
 
     if role in fun_roles:
         selected_role = d_get(g_roles, name=role.title())
-        fun_bool = True
- 
+        fun_bool = True 
+
     await member.add_roles(selected_role)
     if not fun_bool:
         await member.remove_roles(*remove_roles)
