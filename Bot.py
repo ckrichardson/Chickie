@@ -116,7 +116,7 @@ async def on_guild_join(ctx):
 async def role(ctx, role=None):
     embed.title="Role"
     if not role:
-        embed.description="**Current Students**:\nFreshman | Sophomore | Junior | Senior | 5th+ | Masters | PhD\n\n**Alumnus**:\nAlumnus\n\n**Mode**:\nOnline | On-Campus\n\n**Funsies**:\nGamer"
+        embed.description = text.role_description
         await ctx.send(embed=embed)
         return
 
