@@ -154,7 +154,7 @@ async def role(ctx, role=None):
     if fetch in member_roles:
         role_to_remove = d_get(g_roles, name=fetch)
         await member.remove_roles(role_to_remove)
-        await ctx.send("Role **{0}** removed!".format(fetch))
+        await ctx.send("Role **{0}** removed! <@{1}> ".format(fetch, member.id))
         return
     
     if fetch in all_year_roles:
@@ -189,7 +189,7 @@ async def role(ctx, role=None):
     if not fun_bool:
         await member.remove_roles(*remove_roles)
 
-    await ctx.send("Role **{0}** added!".format(fetch))
+    await ctx.send("Role **{0}** added! <@{1}>".format(fetch, member.id))
 
 # Kicks a user from the server
 @commands.guild_only()
