@@ -1,3 +1,6 @@
+year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
+instr_modes = ["On-Campus Student", "Online Student"]
+
 year_one = "Freshman"
 year_two = "Sophomore"
 year_three = "Junior"

@@ -125,6 +125,7 @@ async def role(ctx, role=None):
     g_roles = ctx.guild.roles
     
     member = ctx.message.author
+    member_roles = [role.name for role in member.roles]
 
     selected_role=None
     role = role.lower() # make input case insensitive
@@ -149,6 +150,12 @@ async def role(ctx, role=None):
     year_campus_toggle = True # True means we are changing year role, False means mode (online, on-campus)
 
     fetch = consts.roles_dict[role]
+
+    if fetch in member_roles:
+        role_to_remove = d_get(g_roles, name=fetch)
+        await member.remove_roles(role_to_remove)
+        await ctx.send("Role **{0}** removed!".format(fetch))
+        return
     
     if fetch in all_year_roles:
         selected_role = d_get(g_roles, name=fetch)
@@ -182,6 +189,7 @@ async def role(ctx, role=None):
     if not fun_bool:
         await member.remove_roles(*remove_roles)
 
+    await ctx.send("Role **{0}** added!".format(fetch))
 
 # Kicks a user from the server
 @commands.guild_only()
