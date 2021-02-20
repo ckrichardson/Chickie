@@ -258,6 +258,10 @@ async def ban(ctx, member: discord.Member=None, *, reason=None):
     if not member:
         return
 
+    if not reason: 
+        embed.description = "Command example:\n>ban <@{0}> reason".format(ctx.author.id)    
+        await ctx.send(embed=embed)
+
     else:
         await member.ban(reason=reason)
         embed.description = "<@{0}>".format(member.id) + "  JUST GOT FKING BAN HAMMERED!!!\n\nReason: {0}".format(reason)
