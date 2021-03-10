@@ -678,7 +678,7 @@ async def hm(ctx, letter=None):
 
         if letter in missed or letter in blanks:
             await ctx.send("You've already guessed that letter!")
-            await ctx.send(hangman_states[stage]+blanks+"\nMissed:   " + " ".join(missed)+"```")
+            await ctx.send(hangman_states[stage]+"\n\n"+blanks+"\nMissed:   " + " ".join(missed)+"```")
             return
 
         elif stage < 7:
