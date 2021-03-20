@@ -130,7 +130,6 @@ async def role(ctx, role=None):
     selected_role=None
     role = role.lower() # make input case insensitive
     all_year_roles = ["Freshman", "Sophomore", "Junior", "Senior", "5th+ Year", "Masters Student", "Doc Student", "Alumnus"]
-    all_modes = ["On-Campus Student", "Online Student"]
     original_len = len(all_year_roles)
 
     # Undergraduate students
@@ -141,7 +140,6 @@ async def role(ctx, role=None):
     # Graduate students
     doc_student, masters_student = "phd", "masters"
     alumnus = ["alumnus", "alumni"]
-    on_campus_off_campus = ["online","on-campus"]
 
     # Fun roles
     all_fun_roles = ["Gamer"]
@@ -160,26 +158,9 @@ async def role(ctx, role=None):
     if fetch in all_year_roles:
         selected_role = d_get(g_roles, name=fetch)
         all_year_roles.remove(fetch)
-        if fetch == "Alumnus":
-            remove_campus_roles = tuple(d_get(g_roles, name=n) for n in all_modes)
-            await member.remove_roles(*remove_campus_roles)
 
     all_year_roles = tuple(all_year_roles)
-
-    # Online / On-Campus Roles
-    # Remove all other roles (year-related, or online/on-campus) apart from the one we are adding (cannot be freshman AND sophomore, Junior AND senior, etc.)
-    if fetch in all_modes:
-        year_campus_toggle = False
-        if role==on_campus_off_campus[0]:
-            selected_role = d_get(g_roles, name="Online Student")
-            on_campus_off_campus = tuple(["On-Campus Student"])
-        elif role==on_campus_off_campus[1]:
-            selected_role = d_get(g_roles, name="On-Campus Student")
-            on_campus_off_campus = tuple(["Online Student"])
-
-        remove_roles = tuple(d_get(g_roles, name=n) for n in on_campus_off_campus) 
-    else: 
-        remove_roles = tuple(d_get(g_roles, name=n) for n in all_year_roles)
+    remove_roles = tuple(d_get(g_roles, name=n) for n in all_year_roles)
 
     if fetch in all_fun_roles:
         selected_role = d_get(g_roles, name=fetch)

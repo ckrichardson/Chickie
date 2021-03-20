@@ -73,4 +73,4 @@ hangman_7 = """```          ________
 	     _|___      """
 
 
-role_description = "**Current Students**:\nFreshman | Sophomore | Junior | Senior | 5th+ | Masters | PhD\n\n**Alumnus**:\nAlumnus\n\n**Mode**:\nOnline | On-Campus\n\n**Funsies**:\nGamer"
+role_description = "**Current Students**:\nFreshman | Sophomore | Junior | Senior | 5th+ | Masters | PhD\n\n**Alumnus**:\nAlumnus\n\n**Funsies**:\nGamer"
