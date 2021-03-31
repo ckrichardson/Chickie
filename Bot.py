@@ -193,12 +193,18 @@ async def kick(ctx, member: discord.Member=None, *, reason=None):
         return
 
     else:
-        embed.description = "<@{0}>".format(member.id) + " just got nae-nae'd!!!"
+        embed.description = "<@{0}>".format(member.id) + " just got nae-nae'd!!!\n\n" + "Reason: " + reason
         await ctx.send(embed=embed)
         embed.title = "KICKED"
         embed.description = ("You have been kicked from the \"UNR Community\" server for the following reason:\n\n" + reason)
         embed.timestamp = datetime.today() + timedelta(hours=7)
-        await member.send(embed=embed)
+
+        #this try statement is in case the kicked  user cannot be DM'd
+        try:
+            await member.send(embed=embed)
+        except:
+            pass
+
         await member.kick(reason=reason)
 
 
@@ -244,15 +250,20 @@ async def ban(ctx, member: discord.Member=None, *, reason=None):
         await ctx.send(embed=embed)
 
     else:
-        await member.ban(reason=reason)
         embed.description = "<@{0}>".format(member.id) + "  JUST GOT FKING BAN HAMMERED!!!\n\nReason: {0}".format(reason)
         await ctx.send(embed=embed)
         embed.title = "BANNED"
         embed.description = ("You have been banned from the \"UNR Community\" server for the following reason:\n\n"
                              + reason)
         embed.timestamp = datetime.today() + timedelta(hours=7)
-        await member.send(embed=embed)
 
+        #This try statement is for if the user cannot be DM'd
+        try:
+            await member.send(embed=embed)
+        except:
+            pass
+
+        await member.ban(reason=reason)
 
 @ban.error
 async def ban_error(ctx, error):
