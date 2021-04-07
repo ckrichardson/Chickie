@@ -174,5 +174,27 @@ class ModerationCog(commands.Cog):
             await ctx.send(embed=embed)
 
 
+
+# Deletes the last 'x' number of messages
+@commands.guild_only()
+@commands.has_any_role("Mod","Owner")
+@commands.command(pass_context=True)
+async def purge(self, ctx, number: int=0):
+    # Error handler cannot catch purge number of 0 (number+1), this must be handled here
+    if not number:
+        embed.title = "Purge"
+        embed.description = "Command Example: " + prefix + "purge 10"
+        await ctx.send(embed=embed)
+        return
+    if number > 100:
+        embed.description="100-line limit per purge."
+        await ctx.send(embed=embed)
+        return
+    try:
+        await ctx.channel.purge(limit=(number+1))
+    except:
+        return
+
+
 def setup(bot):
     bot.add_cog(ModerationCog(bot))
