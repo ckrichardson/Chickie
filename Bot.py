@@ -26,7 +26,10 @@ intents = discord.Intents.all()
 
 # Prefix used for the bot
 prefix = '>'
-bot = commands.Bot(command_prefix=prefix, intents=intents)
+bot = commands.Bot(command_prefix=prefix, intents=intents, description=":3")
+
+# Cogs
+extensions = ['cogs.pictures']
 
 # Declare the embed characteristics here
 color = 0
@@ -828,46 +831,7 @@ async def sanic(ctx, *, text=None):
 	await ctx.send(file=discord.File(img, "sanic.jpg"))
 
 
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def cheese(ctx):
-    path = os.getcwd() + "/images/cheese/"
-    filename = random.choice(os.listdir(path))
-    full_path = path+filename
-
-    try:
-        if filename not in global_image_pointer_cache.keys():
-            image = open(full_path, "rb")
-            await ctx.send(file=discord.File(image, "cheese.png"))
-            global_image_pointer_cache[filename] = image
-            global_image_pointer_cache[filename].seek(0)
-        else:
-            print("Using cached pointer:   " + filename)
-            await ctx.send(file=discord.File(global_image_pointer_cache[filename], "cheese.png"))
-            global_image_pointer_cache[filename].seek(0)
-    except:
-        return
-   
-
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def ham(ctx):
-    path = os.getcwd() + "/images/ham/"
-    filename = random.choice(os.listdir(path))
-    full_path = path+filename
-
-    try:
-        if filename not in global_image_pointer_cache.keys():
-            image = open(full_path, "rb")
-            await ctx.send(file=discord.File(image, "ham.png"))
-            global_image_pointer_cache[filename] = image
-            global_image_pointer_cache[filename].seek(0)
-        else:
-            print("Using cached pointer:   " + filename)
-            await ctx.send(file=discord.File(global_image_pointer_cache[filename], "ham.png"))
-            global_image_pointer_cache[filename].seek(0)
-    except:
-        return
-
+for extension in extensions:
+    bot.load_extension(extension)
 
 bot.run(os.environ["UNRBOTKEY"])
