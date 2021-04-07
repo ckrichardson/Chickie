@@ -171,45 +171,6 @@ async def role(ctx, role=None):
 
 
 
-# Mutes a user
-@commands.guild_only()
-@commands.has_permissions(kick_members=True)
-@bot.command(pass_context=True)
-async def mute(ctx, user: discord.Member=None, duration: int=0, *, reason=None):
-    embed.title = "Mute"
-    embed.description = "<@{0}>".format(user.id) + " has been muted for " + str(duration) + " minutes for:\n\n" + reason
-
-    roles = [role.name for role in user.roles if role.name != "@everyone"]
-    
-    remove_roles = tuple(discord.utils.get(ctx.guild.roles, name=n) for n in roles)
-    muted = discord.utils.get(ctx.guild.roles, name="Muted")
-
-    await user.add_roles(muted)
-    await user.remove_roles(*remove_roles)
-    await ctx.send(embed=embed)
-
-    await asyncio.sleep(duration * 60)
-
-    await user.add_roles(*remove_roles)
-    await user.remove_roles(muted)
-
-
-@mute.error
-async def mute_error(ctx, error):
-    embed.title="Mute"
-    if isinstance(error, commands.MissingPermissions):
-        embed.description = "<@{0}>".format(ctx.author.id) + " you do not have the permissions to mute."
-        await ctx.send(embed=embed)
-
-    elif isinstance(error, commands.CommandError):
-        embed.description = "Command example:\n>mute <@{0}> 1 reason\n\n*Note: length of mute is in minutes*".format(ctx.author.id)    
-        await ctx.send(embed=embed)
-
-    elif isinstance(error, commands.BadArgument):
-        embed.description = "I cannot find this member"
-        await ctx.send(embed=embed)
-
-
 # Deletes the last 'x' number of messages
 @commands.guild_only()
 @commands.has_any_role("Mod","Owner")
