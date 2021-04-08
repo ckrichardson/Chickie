@@ -111,16 +111,6 @@ async def on_guild_join(ctx):
         await channel.set_permissions(muted, send_messages=False, read_messages=True)
 
 
-# Sends you a motivational quote
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def quote(ctx):
-    selected_quote = dict(random.choice(quotes))
-    embed.title = "Quote"
-    embed.description = "\"{0}\"\n-{1}".format(selected_quote["text"], selected_quote["author"])
-    await ctx.send(embed=embed)
-
-
 # Find out your pp size
 @commands.guild_only()
 @bot.command(pass_context=True)
