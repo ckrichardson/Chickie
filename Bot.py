@@ -113,30 +113,6 @@ async def on_guild_join(ctx):
 
 @commands.guild_only()
 @bot.command(pass_context=True)
-async def info(ctx, member: discord.Member=None):
-    global embed
-    n_embed = deepcopy(embed)
-    n_embed.set_thumbnail(url=member.avatar_url)
-    n_embed.title = "Info"
-    joined = member.joined_at.replace(microsecond=0) - timedelta(hours=8)
-    n_embed.description = "<@{0.id}> ".format(member) + "joined on `{0}`".format(joined) + " and has been a member of this server for `{0}`".format(datetime.now().replace(microsecond=0)-joined)
-    await ctx.send(embed=n_embed) 
-
-
-@info.error
-async def info_error(ctx, error):
-    embed.title="Info"
-    if isinstance(error, commands.BadArgument):
-        embed.description = "User not found"
-    
-    elif isinstance(error, commands.CommandError):
-        embed.description = "Command Example:\n>info <@{0.id}>".format(ctx.author)
-
-    await ctx.send(embed=embed)
-
-
-@commands.guild_only()
-@bot.command(pass_context=True)
 async def avatar(ctx, member: discord.Member=None):
     await ctx.send(member.avatar_url)
 

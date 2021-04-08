@@ -1,4 +1,6 @@
 import consts
+from datetime import datetime
+from datetime import timedelta
 import discord
 from discord.ext import commands
 
@@ -71,6 +73,30 @@ class UtilsCog(commands.Cog):
             await member.remove_roles(*remove_roles)
 
         await ctx.send("Role **{0}** added! <@{1}>".format(fetch, member.id))
+
+
+    @commands.guild_only()
+    @commands.command(pass_context=True)
+    async def info(self, ctx, member: discord.Member=None):
+        embed = discord.Embed(color=consts.color)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.title = "Info"
+        joined = member.joined_at.replace(microsecond=0) - timedelta(hours=8)
+        embed.description = "<@{0.id}> ".format(member) + "joined on `{0}`".format(joined) + " and has been a member of this server for `{0}`".format(datetime.now().replace(microsecond=0)-joined)
+        await ctx.send(embed=embed) 
+
+
+    @info.error
+    async def info_error(self, ctx, error):
+        embed.title="Info"
+        if isinstance(error, commands.BadArgument):
+            embed.description = "User not found"
+        
+        elif isinstance(error, commands.CommandError):
+            embed.description = "Command Example:\n>info <@{0.id}>".format(ctx.author)
+
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(UtilsCog(bot))
