@@ -111,27 +111,6 @@ async def on_guild_join(ctx):
         await channel.set_permissions(muted, send_messages=False, read_messages=True)
 
 
-# Changes the status of the bot
-@commands.guild_only()
-@commands.has_permissions(administrator=True)
-@bot.command(pass_context=True)
-async def status(ctx,*,game=None):
-    game = discord.Game(str(game))
-    await bot.change_presence(activity=game)
-
-
-@status.error
-async def status_error(ctx, error):
-    embed.title="Status"
-    if isinstance(error, commands.MissingPermissions):
-        embed.description="You do not have the permissions to use this command"
-
-    elif isinstance(error, commannds.CommandError):
-        embed.description="Command example:\n>status looking for booty"
-
-    await ctx.send(embed=embed)
-
-
 # Sends you a motivational quote
 @commands.guild_only()
 @bot.command(pass_context=True)
