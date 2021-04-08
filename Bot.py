@@ -110,23 +110,6 @@ async def on_guild_join(ctx):
     for channel in ctx.channels:
         await channel.set_permissions(muted, send_messages=False, read_messages=True)
 
-
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def dm(ctx, member: discord.Member=None, *message):
-    await member.send(' '.join(message))
-    await ctx.message.delete()
-
-
-@dm.error
-async def dm_error(ctx, error):
-    embed.title="dm"
-    if isinstance(error, commands.BadArgument):
-        embed.description = "User not found"
-    
-    elif isinstance(error, commands.CommandError):
-        embed.description = "Command Example:\n>dm <@{0.id}> wats up dude".format(ctx.author)
-    
     await ctx.send(embed=embed)
 
 

@@ -82,5 +82,25 @@ class EtcCog(commands.Cog):
             await ctx.send(file=discord.File(img, "sanic.jpg"))
 
 
+    @commands.guild_only()
+    @commands.command(pass_context=True)
+    async def dm(self, ctx, member: discord.Member, *message):
+        await member.send(' '.join(message))
+        await ctx.message.delete()
+
+
+    @dm.error
+    async def dm_error(self, ctx, error):
+        embed = discord.Embed(color=consts.color)
+        embed.set_thumbnail(url=consts.avatar)
+        embed.title="dm"
+        if isinstance(error, commands.BadArgument):
+            embed.description = "User not found"
+        
+        elif isinstance(error, commands.CommandError):
+            embed.description = "Command Example:\n>dm <@{0.id}> wats up dude".format(ctx.author)
+    
+
+
 def setup(bot):
     bot.add_cog(EtcCog(bot))
