@@ -88,6 +88,8 @@ class UtilsCog(commands.Cog):
 
     @info.error
     async def info_error(self, ctx, error):
+        embed = discord.Embed(color=consts.color)
+        embed.set_thumbnail(url=consts.avatar)
         embed.title="Info"
         if isinstance(error, commands.BadArgument):
             embed.description = "User not found"
