@@ -74,5 +74,13 @@ class EtcCog(commands.Cog):
         await ctx.send(embed=embed)
 
 
+    @commands.guild_only()
+    @commands.command(pass_context=True)
+    async def sanic(self, ctx, *, text=None):
+            img = await helpers.create_sanic_image(text)
+            img.seek(0)
+            await ctx.send(file=discord.File(img, "sanic.jpg"))
+
+
 def setup(bot):
     bot.add_cog(EtcCog(bot))

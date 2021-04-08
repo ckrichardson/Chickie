@@ -130,14 +130,6 @@ async def dm_error(ctx, error):
     await ctx.send(embed=embed)
 
 
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def sanic(ctx, *, text=None):
-	img = await helpers.create_sanic_image(text)
-	img.seek(0)
-	await ctx.send(file=discord.File(img, "sanic.jpg"))
-
-
 for extension in extensions:
     bot.load_extension(extension)
 
