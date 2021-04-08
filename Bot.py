@@ -39,17 +39,8 @@ extensions = ['cogs.pictures',
 
 embed = None
 
-# Different caches for things such as sam hyde images and game sessions
-covid_cache, available_games, ttt_board, hangman_states = None, None, None, None
-global_image_pointer_cache, ttt_cache, hangman_cache, game_boards = dict(), dict(), dict(), dict()
-words = list()
-
 # Declare quotes, blacklist
 quotes = ""
-blacklist = None
-
-# API keys, tokens (the BOT'S key cannot go here)
-owm_api_key = os.environ["OWMAPIKEY"]
 
 
 async def init_vars():
