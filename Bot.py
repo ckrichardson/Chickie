@@ -41,6 +41,7 @@ embed = None
 
 # Declare quotes, blacklist
 quotes = ""
+blacklist = list()
 
 
 async def init_vars():
@@ -48,19 +49,6 @@ async def init_vars():
     global embed
     embed = discord.Embed(color=consts.color)
     embed.set_thumbnail(url=consts.avatar)
-
-	# Cache, states, etc.
-    global available_games
-    global covid_cache
-    global ttt_board
-    global hangman_states
-    global game_boards
-
-    available_games = ["ttt"]
-    covid_cache = ["date", 0]
-    ttt_board = [['.','.','.'],['.','.','.'],['.','.','.']]
-    hangman_states = await helpers.get_hm_states()
-    game_boards["ttt"] = ttt_board
 
     # Quotes and blacklist
     global quotes
