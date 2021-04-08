@@ -170,29 +170,6 @@ async def role(ctx, role=None):
     await ctx.send("Role **{0}** added! <@{1}>".format(fetch, member.id))
 
 
-# sends a sam hyde meme
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def samhyde(ctx):
-    path = os.getcwd() + "/images/samhyde/"
-    filename = random.choice(os.listdir(path))
-    full_path = path+filename
-    print(full_path)
-
-    try:
-        if filename not in global_image_pointer_cache.keys():
-            image = open(full_path, "rb")
-            await ctx.send(file=discord.File(image, "samhyde.png"))
-            global_image_pointer_cache[filename] = image
-            global_image_pointer_cache[filename].seek(0)
-        else:
-            print("Using cached pointer:   " + filename)
-            await ctx.send(file=discord.File(global_image_pointer_cache[filename], "samhyde.png"))
-            global_image_pointer_cache[filename].seek(0)
-    except:
-        return
-
-
 # Get the weather of a location
 @commands.guild_only()
 @bot.command()
