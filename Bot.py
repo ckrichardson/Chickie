@@ -34,7 +34,8 @@ extensions = ['cogs.pictures',
               'cogs.moderation',
               'cogs.information',
               'cogs.utils',
-              'cogs.games']
+              'cogs.games',
+              'cogs.etc']
 
 embed = None
 
@@ -129,15 +130,6 @@ async def status_error(ctx, error):
         embed.description="Command example:\n>status looking for booty"
 
     await ctx.send(embed=embed)
-
-
-# Say hello to the bot
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def hello(ctx):
-    await ctx.trigger_typing()
-    await asyncio.sleep(1)
-    await ctx.send("Hi <@{0}> :baby_chick:".format(ctx.author.id))
 
 
 # Sends you a motivational quote
