@@ -100,6 +100,26 @@ class UtilsCog(commands.Cog):
         await ctx.send(embed=embed)
 
 
+    @commands.guild_only()
+    @commands.command(pass_context=True)
+    async def avatar(self, ctx, member: discord.Member=None):
+        await ctx.send(member.avatar_url)
+
+
+    @avatar.error
+    async def avatar_error(self, ctx, error):
+        embed = discord.Embed(color=consts.color)
+        embed.set_thumbnail(url=consts.avatar)
+        embed.title="Avatar"
+        if isinstance(error, commands.BadArgument):
+            embed.description = "User not found"
+
+        elif isinstance(error, commands.CommandError):
+            embed.description = "Command Example:\n>avatar <@{0.id}>".format(ctx.author)
+
+        await ctx.send(embed=embed)
+
+
 def setup(bot):
     bot.add_cog(UtilsCog(bot))
 
