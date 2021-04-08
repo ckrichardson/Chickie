@@ -2,6 +2,7 @@ import consts
 from datetime import timedelta
 import discord
 from discord.ext import commands
+import helpers
 import os
 import pyowm
 
@@ -71,6 +72,16 @@ class InformationCog(commands.Cog):
                     embed.description = "Couldn't find that location"
 
             await ctx.send(embed=embed)
+
+
+    # Retrieve AQI of reno
+    @commands.guild_only()
+    @commands.command(pass_context=True)
+    async def aqi(self, ctx):
+        embed = discord.Embed(color=consts.color)
+        embed.title = "AQI Reno Area"
+        embed.description = await helpers.get_aqi()
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

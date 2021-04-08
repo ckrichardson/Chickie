@@ -171,16 +171,6 @@ async def role(ctx, role=None):
     await ctx.send("Role **{0}** added! <@{1}>".format(fetch, member.id))
 
 
-
-# Retrieve AQI of reno
-@commands.guild_only()
-@bot.command(pass_context=True)
-async def aqi(ctx):
-    embed.title = "AQI Reno Area"
-    embed.description = await helpers.get_aqi()
-    await ctx.send(embed=embed)
-
-
 # Search wikipedia for something and return the first 3 sentences, and maybe an image
 @commands.guild_only()
 @bot.command(pass_context=True)
