@@ -49,5 +49,30 @@ class EtcCog(commands.Cog):
         await ctx.send(embed=embed)
 
 
+    @commands.guild_only()
+    @commands.command(pass_context=True)
+    async def insult(self, ctx, target: discord.Member=None):
+        insult = await helpers.get_insult()
+        if not target:
+            msg = "<@{0}> ".format(ctx.author.id) + insult
+        else:
+            msg = "<@{0}> ".format(target.id) + insult
+        await ctx.send(msg)
+
+
+    @insult.error
+    async def insult_error(self, ctx, error):
+        embed = discord.Embed(color=consts.color)
+        embed.set_thumbnail(url=avatar)
+        embed.title="Insult"
+        if isinstance(error, commands.BadArgument):
+            embed.description = "User not found"
+        
+        elif isinstance(error, commands.CommandError):
+            embed.description = "Command Example:\n>insult <@{0.id}>".format(ctx.author)
+
+        await ctx.send(embed=embed)
+
+
 def setup(bot):
     bot.add_cog(EtcCog(bot))

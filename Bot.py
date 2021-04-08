@@ -113,29 +113,6 @@ async def on_guild_join(ctx):
 
 @commands.guild_only()
 @bot.command(pass_context=True)
-async def insult(ctx, target: discord.Member=None):
-    insult = await helpers.get_insult()
-    if not target:
-        msg = "<@{0}> ".format(ctx.author.id) + insult
-    else:
-        msg = "<@{0}> ".format(target.id) + insult
-    await ctx.send(msg)
-
-
-@insult.error
-async def insult_error(ctx, error):
-    embed.title="Insult"
-    if isinstance(error, commands.BadArgument):
-        embed.description = "User not found"
-    
-    elif isinstance(error, commands.CommandError):
-        embed.description = "Command Example:\n>insult <@{0.id}>".format(ctx.author)
-
-    await ctx.send(embed=embed)
-
-
-@commands.guild_only()
-@bot.command(pass_context=True)
 async def info(ctx, member: discord.Member=None):
     global embed
     n_embed = deepcopy(embed)
