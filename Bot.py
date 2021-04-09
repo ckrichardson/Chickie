@@ -59,22 +59,6 @@ async def init_vars():
     blacklist = await helpers.get_blacklist()
 
 
-# An attempt trying to configure things upon the bot joining
-# Haven't figured everything out, probably requires admin upon joining or something
-@bot.event
-async def on_guild_join(ctx):
-    roles = [x.name for x in ctx.roles]
-    if "Muted" not in roles:
-        permissions = discord.Permissions(send_messages=False, read_messages=True)
-        await ctx.create_role(name="Muted", permissions=permissions)
-
-    muted = discord.utils.get(ctx.roles, name="Muted")
-    for channel in ctx.channels:
-        await channel.set_permissions(muted, send_messages=False, read_messages=True)
-
-    await ctx.send(embed=embed)
-
-
 for extension in extensions:
     bot.load_extension(extension)
 
