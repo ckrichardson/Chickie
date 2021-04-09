@@ -1,3 +1,4 @@
+import consts
 import discord
 from discord.ext import commands
 import text
@@ -20,6 +21,8 @@ class MainCog(commands.Cog):
     # Currently sends them a welcome message
     @commands.Cog.listener()
     async def on_member_join(self, member):
+            embed = discord.Embed(color=consts.color)
+            embed.set_thumbnail(url=consts.avatar)
             embed.title = "Welcome!"
             embed.description = text.rules
             await member.send(embed=embed)
