@@ -35,7 +35,8 @@ extensions = ['cogs.pictures',
               'cogs.information',
               'cogs.utils',
               'cogs.games',
-              'cogs.etc']
+              'cogs.etc',
+              'cogs.main']
 
 embed = None
 
@@ -56,24 +57,6 @@ async def init_vars():
 
     quotes = await helpers.get_quotes()
     blacklist = await helpers.get_blacklist()
-
-
-# Things to run once the bot successfully authenticates
-@bot.event
-async def on_ready():
-    print("Bot online")
-    await init_vars()
-    game = discord.Game("Fluffing Feathers")
-    await bot.change_presence(activity=game)
-
-
-# Things to run when a member joins the server
-# Currently sends them a welcome message
-@bot.event
-async def on_member_join(member):
-	embed.title = "Welcome!"
-	embed.description = text.rules
-	await member.send(embed=embed)
 
 
 # An attempt trying to configure things upon the bot joining
