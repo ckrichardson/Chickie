@@ -63,7 +63,7 @@ class EtcCog(commands.Cog):
     @insult.error
     async def insult_error(self, ctx, error):
         embed = discord.Embed(color=consts.color)
-        embed.set_thumbnail(url=avatar)
+        embed.set_thumbnail(url=consts.avatar)
         embed.title="Insult"
         if isinstance(error, commands.BadArgument):
             embed.description = "User not found"
