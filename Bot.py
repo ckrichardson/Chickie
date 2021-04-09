@@ -10,7 +10,7 @@ intents = discord.Intents.all()
 prefix = '>'
 bot = commands.Bot(command_prefix=prefix, intents=intents, description=":3")
 
-# Cogs
+# Cogs arranged in order of importance (has no functional impact, just organization)
 extensions = ['cogs.main',
               'cogs.moderation',
               'cogs.information',
