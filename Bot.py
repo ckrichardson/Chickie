@@ -1,5 +1,6 @@
 import discord as discord
 from discord.ext import commands
+import os
 
 
 #Intents (this is necessary for the welcome message)

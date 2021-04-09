@@ -4,6 +4,9 @@ import os
 import random
 
 
+image_dir = os.getcwd() + "/resources/images"
+
+
 class PicturesCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -12,7 +15,7 @@ class PicturesCog(commands.Cog):
     @commands.guild_only()
     @commands.command(pass_context=True)
     async def cheese(self, ctx):
-        path = os.getcwd() + "/images/cheese/"
+        path = image_dir + "/cheese/"
         filename = random.choice(os.listdir(path))
         full_path = path+filename
 
@@ -33,7 +36,7 @@ class PicturesCog(commands.Cog):
     @commands.guild_only()
     @commands.command(pass_context=True)
     async def ham(self, ctx):
-        path = os.getcwd() + "/images/ham/"
+        path = image_dir + "/ham/"
         filename = random.choice(os.listdir(path))
         full_path = path+filename
 
@@ -55,10 +58,9 @@ class PicturesCog(commands.Cog):
     @commands.guild_only()
     @commands.command(pass_context=True)
     async def samhyde(self, ctx):
-        path = os.getcwd() + "/images/samhyde/"
+        path = image_dir + "/samhyde/"
         filename = random.choice(os.listdir(path))
         full_path = path+filename
-        print(full_path)
 
         try:
             if filename not in self.image_cache.keys():
