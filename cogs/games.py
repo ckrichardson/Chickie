@@ -96,7 +96,7 @@ class GamesCog(commands.Cog):
         author_id = ctx.author.id
         if author_id not in self.hangman_cache.keys(): 
             if not self.words: 
-                path = os.getcwd() + "/words.txt"
+                path = os.getcwd() + "/resources/words.txt"
                 with open(path, "r") as word_file:
                     words = [line for line in word_file]
             selected_word = random.choice(words).upper().strip()
