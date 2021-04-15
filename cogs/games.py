@@ -185,6 +185,9 @@ class GamesCog(commands.Cog):
         if int(params[0]) > 10:
             await ctx.reply("Please keep the number of rolls to 10 and under!")
             return
+        if int(params[1]) > 200:
+            await ctx.reply("Please keep the die size to 200 and under!")
+            return
         nums = ["roll {0}:\t{1}\n".format(x+1, randrange(int(params[1]))+1) if x < 9 else "roll {0}:   {1}\n".format(x+1, randrange(int(params[1]))+1) for x in range(int(params[0])) ]
         output = "```{0}```".format(''.join(nums))
         await ctx.send(output)
