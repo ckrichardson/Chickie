@@ -4,7 +4,7 @@ from discord.ext import commands
 import helpers
 import os
 import random
-
+from random import randrange
 
 class GamesCog(commands.Cog):
     def __init__(self, bot):
@@ -178,6 +178,16 @@ class GamesCog(commands.Cog):
             embed.description = "Usage:   >hangman (letter)"
             await ctx.send(embed=embed)
 
+
+    @commands.command(pass_context=True)
+    async def roll(self, ctx, roll_string):
+        params = roll_string.split('d')
+        if int(params[0]) > 10:
+            await ctx.reply("Please keep the number of rolls to 10 and under!")
+            return
+        nums = ["roll {0}:\t{1}\n".format(x+1, randrange(int(params[1]))+1) if x < 9 else "roll {0}:   {1}\n".format(x+1, randrange(int(params[1]))+1) for x in range(int(params[0])) ]
+        output = "```{0}```".format(''.join(nums))
+        await ctx.send(output)
 
 def setup(bot):
     bot.add_cog(GamesCog(bot))
