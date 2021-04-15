@@ -17,7 +17,7 @@ class EtcCog(commands.Cog):
     async def hello(self, ctx):
         await ctx.trigger_typing()
         await asyncio.sleep(1)
-        await ctx.send("Hi <@{0}> :baby_chick:".format(ctx.author.id))
+        await ctx.reply("Hi <@{0}> :baby_chick:".format(ctx.author.id))
 
 
 
