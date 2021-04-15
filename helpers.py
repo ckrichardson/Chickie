@@ -184,8 +184,8 @@ async def get_insult():
 
 
 async def create_sanic_image(text):
-    font_path = os.getcwd() + "/fonts/Roboto-Bold.ttf"
-    image_path = os.getcwd() + "/images/sanic.jpg"
+    font_path = os.getcwd() + "/resources/fonts/Roboto-Bold.ttf"
+    image_path = os.getcwd() + "/resources/images/sanic.jpg"
     k = ''.join(text).split(" ")
     image  = Image.open(image_path)
     draw = ImageDraw.Draw(image)
@@ -232,13 +232,13 @@ async def get_hm_states():
 
 
 async def get_quotes():
-    with open(os.getcwd()+"/quotes.json", "r") as quotes_file:
+    with open(os.getcwd()+"/resources/quotes.json", "r") as quotes_file:
         quotes = json.loads(quotes_file.read())
         return quotes
 
 
 async def get_blacklist():
-    with open(os.getcwd()+"/blacklist.txt", "r") as bl:
+    with open(os.getcwd()+"/resources/blacklist.txt", "r") as bl:
         blacklist = [int(x) for x in bl]
         return blacklist
 
