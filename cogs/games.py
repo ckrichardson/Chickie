@@ -5,6 +5,7 @@ import helpers
 import os
 import random
 from random import randrange
+import text
 
 class GamesCog(commands.Cog):
     def __init__(self, bot):
